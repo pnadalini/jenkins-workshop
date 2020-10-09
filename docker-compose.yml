@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+  app:
+    user: root
+    ports:
+      - 8080:8080
+    build:
+      context: .
+      dockerfile: images/master/Dockerfile
+    environment:
+      DOCKER_COMPOSE: "1"
+      AWS_DEFAULT_REGION: "us-east-1"
+      AWS_REGION: "us-east-1"
+      JENKINS_URL: "http://localhost:8080"
+      ADMIN_ADDRESS: "jenkins@trambo.cloud"
+    volumes:
+      - "./jobs:/var/jenkins_home/workspace/seed-job/jenkins/jobs/"
+      - "/var/run/docker.sock:/var/run/docker.sock"
