@@ -22,7 +22,7 @@ jobs:
         displayName('seed-job')
         steps {
           dsl {
-            external('jenkins/jobs/nested_jobs.groovy', 'jenkins/jobs/**/*.groovy')
+            external('jenkins/jobs/**/*.groovy')
             removeAction('DELETE')
             removeViewAction('DELETE')
           }

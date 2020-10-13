@@ -1,10 +1,7 @@
-def dockerTag
-def awsRegion     = "us-east-1"
-def ecrName       = "jenkins"
 
 // Pipeline
 pipeline {
-  agent { any}
+  agent any
   stages {
 
     stage('Setup') {
@@ -12,8 +9,6 @@ pipeline {
         script {
           commitId     = sh returnStdout: true, script: 'git rev-parse HEAD'
           commitId     = commitId.trim()
-          awsAccountId = sh (script: 'aws sts  get-caller-identity --query Account --output text ', returnStdout: true).trim()
-          ecrUrl       = awsAccountId + ".dkr.ecr." + awsRegion + ".amazonaws.com/" + ecrName
         }
       }
     }
@@ -25,26 +20,10 @@ pipeline {
             script{ 
               dir('jenkins'){
                 if(!IMAGE_TAG.equals("")){
-                  sh "docker build -f images/master/Dockerfile -t ${ecrUrl}:${IMAGE_TAG} ."
+                  sh "docker build -f images/master/Dockerfile -t jenkins:${IMAGE_TAG} ."
                 }
-                sh "docker build -f images/master/Dockerfile -t ${ecrUrl}:${commitId} ."
+                sh "docker build -f images/master/Dockerfile -t jenkins:${commitId} ."
               }
-            }
-          }
-        }
-        stage('Push') {
-          steps {
-            script{
-              if(!IMAGE_TAG.equals("")){
-                sh """
-                  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 270996056496.dkr.ecr.us-east-1.amazonaws.com/jenkins
-                  docker push ${ecrUrl}:${IMAGE_TAG}
-                """
-              }
-              sh """
-                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 270996056496.dkr.ecr.us-east-1.amazonaws.com/jenkins
-                docker push ${ecrUrl}:${commitId}
-              """
             }
           }
         }
@@ -52,9 +31,9 @@ pipeline {
           steps {
             script{
               if(!IMAGE_TAG.equals("")){
-                sh "docker rmi -f ${ecrUrl}:${IMAGE_TAG}"
+                sh "docker rmi -f jenkins:${IMAGE_TAG}"
               }
-               sh "docker rmi -f ${ecrUrl}:${commitId}"
+               sh "docker rmi -f jenkins:${commitId}"
             }
           }
         }

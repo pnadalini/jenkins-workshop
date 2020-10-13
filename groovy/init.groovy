@@ -13,7 +13,6 @@ import hudson.tasks.Maven.MavenInstallation;
 import hudson.tools.*;
 import hudson.util.DescribableList;
 
-def loader = new GroovyClassLoader(getClass().getClassLoader())
 def jenkinsLocationConfiguration = JenkinsLocationConfiguration.get()
 def jenkins_Url = System.getenv("JENKINS_URL")
 def adminAddress = System.getenv("ADMIN_ADDRESS")

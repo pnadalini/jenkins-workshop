@@ -12,8 +12,6 @@ pipelineJob('jenkins_master_build') {
   }
   parameters {
       stringParam('IMAGE_TAG', '', 'Tag used to push image to registry, if empty commit ID is used')
-      stringParam('BRANCH_NAME', '', 'Used for manual deployments')
-      booleanParam('DEPLOY', false)
   }
   definition {
     cpsScm {
