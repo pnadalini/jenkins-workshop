@@ -1,7 +1,7 @@
 pipelineJob('jenkins_master_build') {
 
     properties {
-        githubProjectUrl('https://github.com/TramboCloud/jenkins-workshop.git')
+        githubProjectUrl('https://github.com/pnadalini/jenkins-workshop.git')
     }
 
   logRotator {
@@ -18,7 +18,7 @@ pipelineJob('jenkins_master_build') {
       scm {
         git {
           remote {
-                url('https://github.com/TramboCloud/jenkins-workshop.git')
+                url('https://github.com/pnadalini/jenkins-workshop.git')
             }
             branches('*/master')
         }

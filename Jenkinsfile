@@ -19,6 +19,10 @@ pipeline {
           steps {
             script{ 
               dir('jenkins'){
+                sh "ls"
+                sh "mkdir images"
+                sh "mkdir images/master"
+                sh "cp ../jenkins-workshop/images/master/Dockerfile images/master/Dockerfile"
                 if(!IMAGE_TAG.equals("")){
                   sh "docker build -f images/master/Dockerfile -t jenkins:${IMAGE_TAG} ."
                 }
