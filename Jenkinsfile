@@ -9,7 +9,6 @@ pipeline {
         script {
           commitId     = sh returnStdout: true, script: 'git rev-parse HEAD'
           commitId     = commitId.trim()
-          git 'https://github.com/pnadalini/jenkins-workshop.git'
         }
       }
     }
@@ -19,7 +18,8 @@ pipeline {
         stage('Build') {
           steps {
             script{ 
-              dir('jenkins'){
+              dir('jenkins') {
+                git 'https://github.com/pnadalini/jenkins-workshop.git'
                 if(!IMAGE_TAG.equals("")){
                   sh "docker build -f images/master/Dockerfile -t jenkins:${IMAGE_TAG} ."
                 }
