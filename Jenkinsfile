@@ -28,6 +28,22 @@ pipeline {
             }
           }
         }
+        stage('Deploy') {
+          steps {
+            script{
+              if(!IMAGE_TAG.equals("")){
+                sh """
+                  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 270996056496.dkr.ecr.us-east-1.amazonaws.com/jenkins
+                  docker push jenkins:${IMAGE_TAG}
+                """
+              }
+              sh """
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 270996056496.dkr.ecr.us-east-1.amazonaws.com/jenkins
+                docker push jenkins:${commitId}
+              """
+            }
+          }
+        }
         stage ('Clean') {
           steps {
             script{
